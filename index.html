@@ -82,7 +82,12 @@ input, button {
       };
       
       const Edit = ({ notes })=> {
-        return null;
+        const note = notes.find(note.id === )
+        return (
+          <form>
+            <input type='text' value={ note.text }/>
+          </form>
+        )
       }
 
       class Create extends Component{
