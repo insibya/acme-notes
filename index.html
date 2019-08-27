@@ -67,7 +67,6 @@ input, button {
             }
           </ul>
         );
-
       };
 
       const Nav = ({ path, notes })=> {
@@ -81,13 +80,21 @@ input, button {
         );
       };
       
-      const Edit = ({ notes })=> {
-        const note = notes.find(note.id === )
-        return (
-          <form>
-            <input type='text' value={ note.text }/>
-          </form>
-        )
+      const Edit = ({ notes, path })=> {
+        console.log(path)
+        const note = notes.find((element) => {
+          return(element.id === path)
+        }) 
+        console.log(note)
+        if(note){
+          return ( 
+            <form>
+              <input type='text' value={ note.text }/>
+            </form>
+          )
+        } else {
+          return null
+        }
       }
 
       class Create extends Component{
@@ -148,6 +155,7 @@ input, button {
         }
         render(){
           const { notes, user } = this.state;
+          console.log(this)
           const { update, create, destroy } = this;
           return (
             <HashRouter>
@@ -156,7 +164,7 @@ input, button {
               <Switch>
                 <Route exact path='/notes' render={ ()=> <Notes destroy={ destroy} archived={ false } notes={ notes} update={ update }/> } />
                 <Route exact path='/notes/create' render={ ({ history })=> <Create history={ history } create={ create } notes={ notes } /> } />
-                <Route path='/notes/:id' render={ ()=> <Edit notes={ notes } update={ update } /> } />
+                <Route path='/notes/:id' render={ ({location})=> <Edit notes={ notes } path = {location.pathname.slice(7)} update={ update } /> } />
                 <Route path='/archived' render={ ()=> <Notes destroy={ destroy } archived={ true } notes={ notes} update={ update }/> } />
                 <Redirect to='/notes' />
               </Switch>
